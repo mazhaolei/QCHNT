@@ -31,7 +31,7 @@ namespace QCHNT
             //连接mysql数据库
             services.AddDbContext<qchdbContext>(options => options.UseMySQL(Configuration.GetConnectionString("AlanConnection")));
             //使用MVC V3.0
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0); //123 十点多
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0); //
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
