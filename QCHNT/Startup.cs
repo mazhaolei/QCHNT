@@ -29,7 +29,7 @@ namespace QCHNT
         public void ConfigureServices(IServiceCollection services)
         {
             //连接mysql数据库
-            services.AddDbContext<qchdbContext>(options => options.UseMySQL(Configuration.GetConnectionString("AlanConnection")));
+            services.AddDbContext<qchdbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DBConnection")));
             //使用MVC V3.0
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0); //
         }
