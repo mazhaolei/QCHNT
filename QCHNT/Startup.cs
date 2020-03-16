@@ -60,10 +60,7 @@ namespace QCHNT
             // Â·ÓÉÓ³Éä
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-               // endpoints.MapControllers();
+                endpoints.MapControllers();
             });
         }
     }
