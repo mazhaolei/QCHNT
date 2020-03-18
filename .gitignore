@@ -157,3 +157,4 @@ $RECYCLE.BIN/
 /.vs/QCHNT/v15/Server/sqlite3
 /.vs/QCHNT
 /QCHNT/Properties/PublishProfiles/FolderProfile.pubxml
+*.editorconfig
