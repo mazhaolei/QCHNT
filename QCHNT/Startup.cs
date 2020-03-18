@@ -28,10 +28,23 @@ namespace QCHNT
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddControllersWithViews().AddNewtonsoftJson();
             //连接mysql数据库
             services.AddDbContext<qchdbContext>(options => options.UseMySQL(Configuration.GetConnectionString("DBConnection")));
-            //使用MVC V3.0
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0); //
+            services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("vbatpower", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "无人值守汽车衡 API",
+                    Description = "API for QCH",
+                    Contact = new Microsoft.OpenApi.Models.OpenApiContact() { Name = "徐州圣能科技", Url = new Uri("http://www.cumtsn.com") }
+                });
+
+                // include document file
+                //option.IncludeXmlComments(System.IO.Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml"), true);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +62,15 @@ namespace QCHNT
                 // 使用HSTS的中间件，该中间件添加了严格传输安全头
                 app.UseHsts();
             }
+            app.UseSwagger();
+
+            app.UseSwaggerUI(option =>
+            {
+                option.SwaggerEndpoint("/swagger/vbatpower/swagger.json", "BattryPower Docs");
+
+                //option.RoutePrefix = string.Empty;
+                //option.DocumentTitle = "SparkTodo API";
+            });
             // HTTP => HTTPS
             app.UseHttpsRedirection();
 
