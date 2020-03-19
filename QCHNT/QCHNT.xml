@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QCHNT</name>
+    </assembly>
+    <members>
+        <member name="M:QCHNT.Controllers.AreaController.Insert(QCHNT.Model.Area)">
+            <summary>
+            新增地区信息
+            </summary>
+            <param name="area">地区信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.AreaController.Delete(System.Int32)">
+            <summary>
+            删除地区信息
+            </summary>
+            <param name="id">主键信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.AreaController.Update(QCHNT.Model.Area)">
+            <summary>
+            更改地区信息
+            </summary>
+            <param name="area">地区信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.AreaController.Gets">
+            <summary>
+            获取所有地区信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.CarmanageController.Insert(QCHNT.Model.Carmanage)">
+            <summary>
+            新增车辆管理信息
+            </summary>
+            <param name="carmanage">车辆管理信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.CarmanageController.Delete(System.Int32)">
+            <summary>
+            删除车辆信息
+            </summary>
+            <param name="id">主键信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.CarmanageController.Update(QCHNT.Model.Carmanage)">
+            <summary>
+            修改车辆管理信息
+            </summary>
+            <param name="carmanage">车辆管理信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.CarmanageController.Gets">
+            <summary>
+            获取所有车辆信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.ContractController.Insert(QCHNT.Model.Contract)">
+            <summary>
+            新增合同信息
+            </summary>
+            <param name="contract">合同信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.ContractController.Delete(System.Int32)">
+            <summary>
+            删除合同信息
+            </summary>
+            <param name="id">主键信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.ContractController.Update(QCHNT.Model.Contract)">
+            <summary>
+            更改合同信息
+            </summary>
+            <param name="contract">合同信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.ContractController.Gets">
+            <summary>
+            获取所有合同信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.GoodsController.Insert(QCHNT.Model.Goods)">
+            <summary>
+            新增物料品类信息
+            </summary>
+            <param name="goods">物料品类信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.GoodsController.Delete(System.Int32)">
+            <summary>
+            删除物料品类信息
+            </summary>
+            <param name="id"> 主键信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.GoodsController.Update(QCHNT.Model.Goods)">
+            <summary>
+            修改物料品类信息
+            </summary>
+            <param name="goods">物料品类信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.GoodsController.Gets">
+             <summary>
+            获取所有地区信息
+             </summary>
+             <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.UserController.Login(QCHNT.Model.User)">
+            <summary>
+            登录
+            </summary>
+            <param name="user">登录用户信息（账号密码）</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.UserController.Insert(QCHNT.Model.User)">
+            <summary>
+            新增用户信息
+            </summary>
+            <param name="user">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.UserController.Delete(System.Int32)">
+            <summary>
+            删除用户信息
+            </summary>
+            <param name="id">主键信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.UserController.Update(QCHNT.Model.User)">
+            <summary>
+            修改用户信息
+            </summary>
+            <param name="user">用户信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:QCHNT.Controllers.UserController.Gets">
+            <summary>
+            获取所有用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:QCHNT.Result.JsonResponse.Msg">
+            <summary>
+             错误信息
+            </summary>
+        </member>
+        <member name="P:QCHNT.Result.JsonResponse.Status">
+            <summary>
+            错误代码
+            </summary>
+        </member>
+    </members>
+</doc>
