@@ -158,3 +158,4 @@ $RECYCLE.BIN/
 /.vs/QCHNT
 /QCHNT/Properties/PublishProfiles/FolderProfile.pubxml
 *.editorconfig
+*.stackdump
