@@ -23,95 +23,124 @@ namespace QCHNT.Controllers
         {
             this._context = context;
         }
-
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="user">登录用户信息（账号密码）</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Login")]   //登录
-        public async Task<JsonResult> Login([FromBody] User user)
+        [Route("Login")]  
+        public async Task<JsonResponse> Login([FromBody] User user)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             string sql = "select * from user where name='" + user.Name + "' and password='"+user.Password+"'";
             List<User> list = _context.User.FromSql(sql).ToList();
             if (list.Count==1)
             {
-                result.Msg = "true";
-                foreach(User list1 in list)
+                result.Status = ErrorCode.Sucess;
+                foreach (User list1 in list)
                 {
-                    result.Description = list1.Type;
+                    result.Msg = list1.Type;
                 }
             }
             else
             {
-                result.Msg = "false";
-                result.Description = "账号或密码错误";
+                result.Msg = "账号或密码错误";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
-
+        /// <summary>
+        /// 新增用户信息
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Insert")]   //新增
-        public ActionResult<JsonResult> Insert([FromBody] User user)
+        [Route("Insert")]   
+        public async Task<JsonResponse> Insert([FromBody] User user)
         {
-            ResultType result = new ResultType();
-            string sql = "select * from user where name='" + user.Name + "'";
-            List<User> list = _context.User.FromSql(sql).ToList();
-            if (list.Count >= 1)
+            JsonResponse result = new JsonResponse();
+            var list = await _context.User.FirstOrDefaultAsync(m => m.Name == user.Name);
+            if (list != null)
             {
-                result.Msg = "false";
-                result.Description = "用户已存在";
+                result.Msg = "用户已存在";
+                result.Status = ErrorCode.Unknown;
+                return result;
             }
             else
             {
                 user.Id = 0;
                 user.Date = DateTime.Now;
-                _context.Add(user);
-                _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "用户新增成功";
+                try
+                {
+                    _context.Add(user);
+                    _context.SaveChanges();
+                    result.Msg = "用户新增成功";
+                    result.Status = ErrorCode.Sucess;
+                    return result;
+                }
+                catch
+                {
+                    result.Msg = "用户新增失败";
+                    result.Status = ErrorCode.Unknown;
+                    return result;
+                }
             }
-                return Json(result);
         }
-        [HttpPost]
-        [Route("Delete")]   //删除
-        public ActionResult<JsonResult> Delete([FromBody] User user)
+        /// <summary>
+        /// 删除用户信息
+        /// </summary>
+        /// <param name="id">主键信息</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<JsonResponse> Delete(int id)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
-                var u = _context.User.Remove(new User() { Id = user.Id });
+                var u = _context.User.Remove(new User() { Id = id });
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "删除用户成功";
+                result.Msg = "删除用户成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "删除用户失败";
+                result.Msg = "删除用户失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
+        /// <summary>
+        /// 修改用户信息
+        /// </summary>
+        /// <param name="user">用户信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Update")]   //修改
-        public ActionResult<JsonResult> Update([FromBody] User user)
+        [Route("Update")]   
+        public async Task<JsonResponse> Update([FromBody] User user)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
                 user.Date = DateTime.Now;
                 var u = _context.User.Update(user);
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "修改用户成功";
+                result.Msg = "修改用户成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "修改用户失败";
+                result.Msg = "修改用户失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
-
+        /// <summary>
+        /// 获取所有用户信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("Gets")]        //获取所有用户
+        [Route("Gets")]        
         public async Task<JsonResult> Gets()
         {
                 return Json(_context.User);

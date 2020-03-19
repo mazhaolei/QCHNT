@@ -19,71 +19,97 @@ namespace QCHNT.Controllers
         {
             this._context = context;
         }
+        /// <summary>
+        /// 新增合同信息
+        /// </summary>
+        /// <param name="contract">合同信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Insert")]   //新增
-        public ActionResult<JsonResult> Insert([FromBody]  Contract contract)
+        [Route("Insert")]
+        public async Task<JsonResponse> Insert([FromBody]  Contract contract)
         {
-            ResultType result = new ResultType();
-            string sql = "select * from contract where name='" + contract.ContractNumber + "'";
-            List<Contract> list = _context.Contract.FromSql(sql).ToList();
-            if (list.Count >= 1)
+            JsonResponse result = new JsonResponse();
+            var list = await _context.Contract.FirstOrDefaultAsync(m => m.ContractNumber == contract.ContractNumber);
+            if (list != null)
             {
-                result.Msg = "false";
-                result.Description = "合同信息已存在";
+                result.Msg = "合同信息已存在";
+                result.Status = ErrorCode.Unknown;
+                return result;
             }
             else
             {
                 contract.Id = 0;
                 contract.Date = DateTime.Now;
-                _context.Add(contract);
-                _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "合同信息新增成功";
+                try
+                {
+                    _context.Add(contract);
+                    _context.SaveChanges();
+                    result.Msg = "合同信息新增成功";
+                    result.Status = ErrorCode.Sucess;
+                    return result;
+                }
+                catch
+                {
+                    result.Msg = "合同信息新增失败";
+                    result.Status = ErrorCode.Unknown;
+                    return result;
+                }
             }
-            return Json(result);
         }
-        [HttpPost]
-        [Route("Delete")]   //删除
-        public ActionResult<JsonResult> Delete([FromBody] Contract contract)
+        /// <summary>
+        /// 删除合同信息
+        /// </summary>
+        /// <param name="id">主键信息</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<JsonResponse> Delete(int id)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
-                var u = _context.Contract.Remove(new Contract() { Id = contract.Id });
+                var u = _context.Contract.Remove(new Contract() { Id = id });
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "删除合同信息成功";
+                result.Msg = "删除合同信息成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "删除合同信息失败";
+                result.Msg = "删除合同信息失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
+        /// <summary>
+        /// 更改合同信息
+        /// </summary>
+        /// <param name="contract">合同信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Update")]   //修改
-        public ActionResult<JsonResult> Update([FromBody] Contract contract)
+        [Route("Update")]
+        public async Task<JsonResponse> Update([FromBody] Contract contract)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
                 contract.Date = DateTime.Now;
                 var u = _context.Contract.Update(contract);
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "修改合同信息成功";
+                result.Msg = "修改合同信息成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "修改合同信息失败";
+                result.Msg = "修改合同信息失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
-
+        /// <summary>
+        /// 获取所有合同信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("Gets")]        //获取所有合同
+        [Route("Gets")] 
         public async Task<JsonResult> Gets()
         {
             return Json(_context.Contract);

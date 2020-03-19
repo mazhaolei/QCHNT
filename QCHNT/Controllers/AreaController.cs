@@ -20,72 +20,97 @@ namespace QCHNT.Controllers
         {
             this._context = context;
         }
-
+        /// <summary>
+        /// 新增地区信息
+        /// </summary>
+        /// <param name="area">地区信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Insert")]   //新增
-        public ActionResult<JsonResult> Insert([FromBody] Area area)
+        [Route("Insert")]   
+        public async Task<JsonResponse> Insert([FromBody] Area area)
         {
-            ResultType result = new ResultType();
-            string sql = "select * from area where name='" + area.Name + "'";
-            List<Area> list = _context.Area.FromSql(sql).ToList();
-            if (list.Count >= 1)
+            JsonResponse result = new JsonResponse();
+            var list = await _context.Area.FirstOrDefaultAsync(m => m.Name == area.Name);
+            if (list != null)
             {
-                result.Msg = "false";
-                result.Description = "地区已存在";
+                result.Msg = "地区已存在";
+                result.Status = ErrorCode.Unknown;
+                return result;
             }
             else
             {
                 area.Id = 0;
                 area.Date = DateTime.Now;
-                _context.Add(area);
-                _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "地区新增成功";
+                try
+                {
+                    _context.Add(area);
+                    _context.SaveChanges();
+                    result.Msg = "地区新增成功";
+                    result.Status = ErrorCode.Sucess;
+                    return result;
+                }
+                catch
+                {
+                    result.Msg = "地区新增失败";
+                    result.Status = ErrorCode.Unknown;
+                    return result;
+                }
             }
-            return Json(result);
         }
-        [HttpPost]
-        [Route("Delete")]   //删除
-        public ActionResult<JsonResult> Delete([FromBody]  Area area)
+        /// <summary>
+        /// 删除地区信息
+        /// </summary>
+        /// <param name="id">主键信息</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<JsonResponse> Delete(int id)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
-                var u = _context.Area.Remove(new Area() { Id = area.Id });
+                var u = _context.Area.Remove(new Area() { Id = id });
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "删除地区成功";
+                result.Msg = "删除地区成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "删除地区失败";
+                result.Msg = "删除地区失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
+        /// <summary>
+        /// 更改地区信息
+        /// </summary>
+        /// <param name="area">地区信息</param>
+        /// <returns></returns>
         [HttpPost]
-        [Route("Update")]   //修改
-        public ActionResult<JsonResult> Update([FromBody] Area area)
+        [Route("Update")]   
+        public async Task<JsonResponse> Update([FromBody] Area area)
         {
-            ResultType result = new ResultType();
+            JsonResponse result = new JsonResponse();
             try
             {
                 area.Date = DateTime.Now;
                 var u = _context.Area.Update(area);
                 _context.SaveChanges();
-                result.Msg = "true";
-                result.Description = "修改地区成功";
+                result.Msg = "修改地区成功";
+                result.Status = ErrorCode.Sucess;
             }
             catch
             {
-                result.Msg = "false";
-                result.Description = "修改地区失败";
+                result.Msg = "修改地区失败";
+                result.Status = ErrorCode.Unknown;
             }
-            return Json(result);
+            return result;
         }
-
+        /// <summary>
+        /// 获取所有地区信息
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("Gets")]        //获取所有地区
+        [Route("Gets")]       
         public async Task<JsonResult> Gets()
         {
             return Json(_context.Area);
