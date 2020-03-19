@@ -23,8 +23,5 @@ namespace QCHNT.Model
         public string ReceiveUnit { get; set; }
         public DateTime? InsertTime { get; set; }
         public string CarDriver { get; set; }
-        public double? TotalContract { get; set; }
-        public double? ContractReduction { get; set; }
-        public double? ResidualContract { get; set; }
     }
 }

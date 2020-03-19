@@ -8,6 +8,7 @@ namespace QCHNT.Model
         public int Id { get; set; }
         public string ContractNumber { get; set; }
         public string GoodsName { get; set; }
+        public string ContractType { get; set; }
         public string Area { get; set; }
         public string SupplyUnit { get; set; }
         public string ReceiveUnit { get; set; }

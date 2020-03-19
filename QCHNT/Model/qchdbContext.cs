@@ -21,6 +21,8 @@ namespace QCHNT.Model
         public virtual DbSet<Carnumber> Carnumber { get; set; }
         public virtual DbSet<Contract> Contract { get; set; }
         public virtual DbSet<Controller> Controller { get; set; }
+        public virtual DbSet<Daozhaandcamera> Daozhaandcamera { get; set; }
+        public virtual DbSet<Dibanganddaozha> Dibanganddaozha { get; set; }
         public virtual DbSet<Displayscreen> Displayscreen { get; set; }
         public virtual DbSet<Gatedetectionvalue> Gatedetectionvalue { get; set; }
         public virtual DbSet<Goods> Goods { get; set; }
@@ -38,7 +40,7 @@ namespace QCHNT.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("Server=192.168.78.86;User Id=root;Password=123456;Database=qchdb");
+                optionsBuilder.UseMySql("Server=localhost;User Id=root;Password=123456;Database=qchdb");
             }
         }
 
@@ -143,6 +145,8 @@ namespace QCHNT.Model
 
                 entity.Property(e => e.ContractReduction).HasColumnType("double(50,0)");
 
+                entity.Property(e => e.ContractType).HasColumnType("varchar(50)");
+
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.GoodsName).HasColumnType("varchar(50)");
@@ -177,6 +181,40 @@ namespace QCHNT.Model
                 entity.Property(e => e.StandbyCom)
                     .HasColumnName("StandbyCOM")
                     .HasColumnType("varchar(50)");
+            });
+
+            modelBuilder.Entity<Daozhaandcamera>(entity =>
+            {
+                entity.ToTable("daozhaandcamera");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.CameraName).HasColumnType("varchar(50)");
+
+                entity.Property(e => e.CardReaderName).HasColumnType("varchar(50)");
+
+                entity.Property(e => e.DaoZhaName).HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.OutInSign).HasColumnType("varchar(50)");
+            });
+
+            modelBuilder.Entity<Dibanganddaozha>(entity =>
+            {
+                entity.ToTable("dibanganddaozha");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .HasColumnType("int(255)");
+
+                entity.Property(e => e.DaoZhaName).HasColumnType("varchar(50)");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.DiBangName).HasColumnType("varchar(50)");
             });
 
             modelBuilder.Entity<Displayscreen>(entity =>
@@ -401,8 +439,6 @@ namespace QCHNT.Model
 
                 entity.Property(e => e.ContractNumber).HasColumnType("varchar(50)");
 
-                entity.Property(e => e.ContractReduction).HasColumnType("double(50,0)");
-
                 entity.Property(e => e.FinishMark).HasColumnType("varchar(50)");
 
                 entity.Property(e => e.GoodsName).HasColumnType("varchar(50)");
@@ -419,15 +455,11 @@ namespace QCHNT.Model
 
                 entity.Property(e => e.ReceiveUnit).HasColumnType("varchar(50)");
 
-                entity.Property(e => e.ResidualContract).HasColumnType("double(50,0)");
-
                 entity.Property(e => e.RoughWeightTime).HasColumnType("varchar(50)");
 
                 entity.Property(e => e.SupplyUnit).HasColumnType("varchar(50)");
 
                 entity.Property(e => e.TareWeightTime).HasColumnType("varchar(50)");
-
-                entity.Property(e => e.TotalContract).HasColumnType("double(50,0)");
 
                 entity.Property(e => e.WeightListNumber).HasColumnType("varchar(100)");
             });
