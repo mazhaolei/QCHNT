@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using QCHNT.Result;
 using Microsoft.EntityFrameworkCore;
+using QCHNT.ModelList;
 
 namespace QCHNT.Controllers
 {
@@ -110,9 +111,26 @@ namespace QCHNT.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Gets")] 
-        public async Task<JsonResult> Gets()
+        public async Task<JsonResponse> Gets()
         {
-            return Json(_context.Contract);
+            JsonResponse<ListContract> result = new JsonResponse<ListContract>();
+
+            ListContract contract = new ListContract();
+            try
+            {
+                contract.Listconrtact= await _context.Contract.ToArrayAsync();
+                result.Data = contract;
+                result.Msg = "查询成功";
+                result.Status = ErrorCode.Sucess;
+                return result;
+            }
+            catch
+            {
+                result.Data = null;
+                result.Msg = "查询失败";
+                result.Status = ErrorCode.Unknown;
+                return result;
+            }
         }
 
     }

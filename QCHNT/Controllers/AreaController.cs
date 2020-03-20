@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using QCHNT.Model;
+using QCHNT.ModelList;
 using QCHNT.Result;
 using System;
 using System.Collections.Generic;
@@ -111,9 +112,26 @@ namespace QCHNT.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Gets")]       
-        public async Task<JsonResult> Gets()
+        public async Task<JsonResponse> Gets()
         {
-            return Json(_context.Area);
+            JsonResponse<ListArea> result = new JsonResponse<ListArea>();
+
+            ListArea area = new ListArea();
+            try
+            {
+                area.Listarea = await _context.Area.ToArrayAsync();
+                result.Data = area;
+                result.Msg = "查询成功";
+                result.Status = ErrorCode.Sucess;
+                return result;
+            }
+            catch
+            {
+                result.Data = null;
+                result.Msg = "查询失败";
+                result.Status = ErrorCode.Unknown;
+                return result;
+            }
         }
     }
 }
