@@ -16,6 +16,15 @@ namespace QCHNT.Result
         /// </summary>
         public ErrorCode Status { get; set; }
     }
+
+    public class JsonResponse<T> : JsonResponse
+    {
+        /// <summary>
+        /// 返回数据 
+       /// </summary>
+        public T Data { get; set; }
+    }
+
     public enum ErrorCode
     {
         Unknown = -1,
